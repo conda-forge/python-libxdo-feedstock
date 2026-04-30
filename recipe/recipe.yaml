@@ -1,0 +1,47 @@
+schema_version: 1
+
+context:
+  name: python-libxdo
+  version: 0.1.2a1
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/python-libxdo-${{ version }}.tar.gz
+  sha256: 718d2677d55e2aaa7c5c549ecf063750efaf3ea6d187738f5ea91ad31bf65b0f
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+    - six
+    - xdotool
+
+tests:
+  - python:
+      imports:
+        - xdo
+      pip_check: true
+      python_version: ${{ python_min }}
+
+about:
+  summary: Python bindings for libxdo
+  license: BSD-3-Clause
+  # LICENSE file is a template, it does not contain an authors name and year of publication.
+  # Corresponding upstream issue: https://github.com/rshk/python-libxdo/issues/33
+  license_file: LICENSE
+  homepage: https://github.com/rshk/python-libxdo
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
